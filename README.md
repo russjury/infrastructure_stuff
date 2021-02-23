@@ -23,6 +23,19 @@ At this point you should have a running VM with it's hostname set, and getting i
 # ping myhost1
 ```
 
+### If things go wrong...
+
+To shut down a VM:
+```
+# virsh destroy $HOSTNAME
+```
+
+To delete a VM that's bad:
+```
+# virsh undefine $HOSTNAME
+# rm /path/to/vm/$HOSTNAME.qcow2
+```
+
 # Configure VMs with Ansible
 
 coming soon...
