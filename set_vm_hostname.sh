@@ -63,7 +63,7 @@ if [ ! -e "$IMAGE" ]; then
   echo "VM Image file $IMAGE doesn't exist"
   exit 30
 else
-  qemu-img info foo.qcow2 >/dev/null
+  qemu-img info $IMAGE >/dev/null
   ERR=$?
   if [ $ERR -ne 0 ]; then
     echo "Error checking VM disk image"
