@@ -10,6 +10,7 @@ copy/clone VM image:
 
 set hostname in image (using the set_vm_hostname.sh helper script):
 ```
+## modprobe nbd max_part=63
 # ./set_vm_hostname.sh $HOSTNAME /vm/directory/$HOSTNAME.qcow2
 ```
 
@@ -36,6 +37,66 @@ To delete a VM that's bad:
 # rm /path/to/vm/$HOSTNAME.qcow2
 ```
 
-# Configure VMs with Ansible
+# Configure VMs with Ansible and Create Kubernetes Cluster with Kubespray
 
-coming soon...
+Next, I'll be creating a simple Kubernetes cluster with 5 newly provisioned VMs (using the above steps). In my case, my VM names are:
+- master01.localdomain
+- master02.localdomain
+- master03.localdomain
+- worker01.localdomain
+- worker02.localdomain
+
+I'm using Fedora 31 to run Ansible and QEMU/KVM - you'll want something similarly modern so that your Ansible and QEMU libs are relatively new (i.e. don't try this on CentOS 7 - I'm using CentOS7 for my VMs but will be replacing the old kernel with a much more modern one).
+
+Install Ansible:
+```
+dnf install ansible python-netaddr -y
+```
+
+Create some working directories:
+```
+mkdir ansible
+mkdir ansible/inventory
+```
+
+Create ansible inventory file (in a format Kubespray likes):
+```
+[all]
+master01
+master02
+master03
+worker01
+worker02
+
+[kube-master]
+master01
+master02
+master03
+
+[etcd]
+master01
+master02
+master03
+
+[kube-node]
+worker01
+worker02
+
+[k8s-cluster:children]
+kube-master
+kube-node
+```
+
+Clone kubespray:
+```
+cd ansible
+git clone https://github.com/kubernetes-sigs/kubespray.git
+```
+
+Build cluster:
+```
+cd kubespray
+ansible-playbook -i ../inventory/inventory.ini cluster.yml
+```
+
+
