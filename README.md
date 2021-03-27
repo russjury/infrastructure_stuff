@@ -1,6 +1,6 @@
 # Creating VMs from Packer image
 
-Assumes you're starting with a CentOS7 image created by [Packer](https://github.com/russjury/packer)
+Assumes you're starting with a [CentOS7 or CentOS8 image created by Packer](https://github.com/russjury/packer)
 
 copy/clone VM image:
 ```
