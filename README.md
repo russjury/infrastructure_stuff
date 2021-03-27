@@ -10,7 +10,6 @@ copy/clone VM image:
 
 set hostname in image (using the set_vm_hostname.sh helper script):
 ```
-# modprobe nbd max_part=63
 # ./set_vm_hostname.sh $HOSTNAME /e/VMs/$HOSTNAME.qcow2
 ```
 
